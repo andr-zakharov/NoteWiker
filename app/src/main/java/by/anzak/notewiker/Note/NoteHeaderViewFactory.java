@@ -13,19 +13,19 @@ import by.anzak.notewiker.R;
  * Фабрика View заметок.
  * Создает графический элемент с заголовком заметки для отображения в дереве заметок.
  */
-public class NoteViewFactory {
+public class NoteHeaderViewFactory {
 
     private LayoutInflater layoutInflater;
     private ViewGroup root;
 
-    public NoteViewFactory(LayoutInflater inflater, ViewGroup root) {
+    public NoteHeaderViewFactory(LayoutInflater inflater, ViewGroup root) {
         this.layoutInflater = inflater;
         this.root = root;
 
     }
 
-    /* Создает вью заметки для отображения в дереве */
-    public View getNoteView(Note note, int level, View.OnClickListener changeNoteListener, View.OnClickListener showNoteListener) {
+    /* Создает вью заголовка заметки для отображения в дереве */
+    public View createNoteView(Note note, int level, View.OnClickListener changeNoteListener, View.OnClickListener showNoteListener) {
         View view;
 
         view = layoutInflater.inflate(R.layout.note, root);
@@ -46,7 +46,9 @@ public class NoteViewFactory {
         children_count.setText(String.valueOf(note.getChildren().size()));
         icon.setImageBitmap(note.getIcon());
 
-            /* На вьюхи вешаются слушатели и соответствующая заметка */
+         /* На вьюхи вешаются слушатели и соответствующая заметка */
+        icon.setOnClickListener(showNoteListener);
+        icon.setTag(note);
         title.setOnClickListener(showNoteListener);
         title.setTag(note);
         children_count.setOnClickListener(changeNoteListener);
@@ -55,8 +57,15 @@ public class NoteViewFactory {
         return view;
     }
 
-    public View getCurrentNoteView(Note note, int level, View.OnClickListener changeNoteListener, View.OnClickListener showNoteListener) {
-        View v = getNoteView(note, level, changeNoteListener, showNoteListener);
+    /** Создает вью заголовка текущей заметки для отображения в дереве
+     * @param note объект заметки.
+     * @param level уровень вложенности заметки. Влияет на величину отступа слева во вью.
+     * @param changeNoteListener слушатель выбора новой текущей заметки
+     * @param showNoteListener слушатель открытия заметки
+     * @return
+     */
+    public View createCurrentNoteView(Note note, int level, View.OnClickListener changeNoteListener, View.OnClickListener showNoteListener) {
+        View v = createNoteView(note, level, changeNoteListener, showNoteListener);
         (v.findViewById(R.id.rootlayout)).setBackgroundColor(layoutInflater.getContext().getResources().getColor(R.color.item_background_highlighted));
         return v;
     }

@@ -3,33 +3,34 @@ package by.anzak.notewiker.Note;
 import android.graphics.Bitmap;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.List;
 
 /**
- * Интерфейс заметки
+ * Класс заметки
  */
-public interface Note {
+public abstract class Note implements Serializable{
 
     /* возвращает заголовок заметки */
-    public String getTitle();
+    public abstract String getTitle();
 
     /* возвращает папку заметки */
-    public File getFolder();
+    public abstract File getFolder();
 
     /* возвращает иконку заметки */
-    public Bitmap getIcon();
+    public abstract Bitmap getIcon();
 
     /* возвращает папку для прикрепленных файлов */
-    public File getAttachFolder();
+    public abstract File getAttachFolder();
 
     /* возвращает коллекцию прикрепленных файлов */
-    public List<File> getAttachList();
+    public abstract List<File> getAttachList();
 
     /* возвращает коллекцию заметок - наследников */
-    public List<File> getChildren();
+    public abstract List<File> getChildren();
 
     /* возвращает содержимое заметки */
-    public Object getContent();
+    public abstract Object getContent();
 
 }
 

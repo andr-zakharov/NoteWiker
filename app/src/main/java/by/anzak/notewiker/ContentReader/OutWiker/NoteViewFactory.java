@@ -14,6 +14,8 @@ import by.anzak.notewiker.Note.Note;
 import by.anzak.notewiker.R;
 
 /**
+ * Фабрика для получения View с просмотрщиком заметок.
+ * Просмотрщик включает в себя содержимое заметки и вспомогательные элементы (заголовок, вложения).
  * Created by Andrey on 01.03.2015.
  */
 public class NoteViewFactory {

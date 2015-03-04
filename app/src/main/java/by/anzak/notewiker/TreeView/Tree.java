@@ -1,10 +1,12 @@
-package by.anzak.notewiker.Note;
+package by.anzak.notewiker.TreeView;
 
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
+import by.anzak.notewiker.Note.Note;
 import by.anzak.notewiker.Note.OutWiker.OutWikerNote;
 
 /**
@@ -15,8 +17,7 @@ import by.anzak.notewiker.Note.OutWiker.OutWikerNote;
  * Дети - наследники текущей заметки
  * При смене текущей заметки класс не пересоздается, а меняет свое содержимое.
  */
-public class Tree implements Serializable{
-
+public class Tree extends Observable implements Serializable {
 
     private static final long serialVersionUID = 8957602872479065712L;
 
@@ -48,6 +49,9 @@ public class Tree implements Serializable{
         } else {
             parents = parents.subList(0, cur + 1);
         }
+        System.out.println(countObservers());
+        setChanged();
+        notifyObservers();
         return true;
     }
 
@@ -63,5 +67,9 @@ public class Tree implements Serializable{
         }
         return ln;
     }
+
+
+
+
 
 }

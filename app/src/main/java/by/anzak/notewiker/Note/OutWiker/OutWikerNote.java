@@ -7,20 +7,18 @@ import android.support.annotation.Nullable;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import by.anzak.notewiker.ContentReader.ContentReader;
 import by.anzak.notewiker.Note.Note;
 
 /**
  * Основной объект заметки формата OutWiker
  */
-public class OutWikerNote implements Note, ContentReader, Serializable, Comparable {
+public class OutWikerNote extends Note implements Comparable {
 
     private static final long serialVersionUID = 5422739599880394547L;
-    private ContentReader reader;
     private static final DirsFilter dirsFilter = new DirsFilter();
 
     private final File folder;
@@ -74,7 +72,16 @@ public class OutWikerNote implements Note, ContentReader, Serializable, Comparab
 
     @Override
     public List<File> getAttachList() {
-        return Arrays.asList(getAttachFolder().listFiles());
+        List<File> attachList = new ArrayList<>();
+        File attachFolder = getAttachFolder();
+        if (attachFolder != null) {
+            try {
+                attachList = Arrays.asList(attachFolder.listFiles());
+            } catch (Throwable e) {
+                e.printStackTrace();
+            }
+        }
+        return attachList;
     }
 
     @Override
@@ -105,10 +112,8 @@ public class OutWikerNote implements Note, ContentReader, Serializable, Comparab
         return type;
     }
 
-    /**
-     * The order of a by.anzak.notewiker.Note in the folder.
-     *
-     * @return order number or -1 if order not specified
+    /** Порядковый номер заметки.
+     * @return порядковый номер, если задан в параметрах заметки. Если не задан, возвращает -1
      */
     public int getOrder() {
         try {
@@ -132,10 +137,15 @@ public class OutWikerNote implements Note, ContentReader, Serializable, Comparab
     }
 
     public Object getContent() {
-        if (reader == null) {
-            //TODO Сделать создание ридеров. Сделать фабрику.
-        }
-        return reader.getContent();
+       if (getType() == Type.HTML || getType() == Type.WIKI){
+           File file = new File(getFolder(), "/__content.html");
+           if (file.isFile()) {
+               return file;
+           }
+       }
+
+
+        return null;
     }
 
     public File getContentFile() {

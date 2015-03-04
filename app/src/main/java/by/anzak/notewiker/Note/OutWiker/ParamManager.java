@@ -12,13 +12,19 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
- * Класс параметров заметки OutWiker
+ * Класс параметров заметки OutWiker.
+ * TODO нуждается в доработке. Упорядоченное хранение тегов + отлов ошибок.
  */
 public class ParamManager {
 
     private Map<String, Map<String, String>> groups;
     private File folder;
     private boolean updated = false;
+
+    private static final Pattern groupPattern = Pattern.compile("\\[*\\]");
+    private static final Pattern parametrPattern = Pattern.compile(".=.");
+    private static final Pattern spacePattern = Pattern.compile(" ");
+
 
     /**
      * @param folder - папка заметки
@@ -35,19 +41,20 @@ public class ParamManager {
     /* Считывает параметры из файла */
     private void readParams(File folder) throws IOException {
         groups = new HashMap<>();
+
+        File pageopt = new File(folder, "__page.opt");
+        if (!pageopt.isFile() || !pageopt.canRead()) return;
+
         Map currentGroup = new HashMap();
         String line;
 
-        Pattern groupPattern = Pattern.compile("\\[*\\]");
-        Pattern parametrPattern = Pattern.compile(".=.");
-        Pattern spacePattern = Pattern.compile(" ");
-
-        File pageopt = new File(folder, "__page.opt");
         BufferedReader breader = null;
 
         try {
             breader = new BufferedReader(new FileReader(pageopt));
 
+            String key;
+            String value;
             while ((line = breader.readLine()) != null) {
 
                 // Если строка задает группу параметров ( типа [groupName] ), то переключение текущей группы.
@@ -61,7 +68,11 @@ public class ParamManager {
                 // Если строка задает параметр (типа key = value), то сохранение параметра
                 if (parametrPattern.matcher(line).find()) {
                     String[] keyValue = spacePattern.matcher(line).replaceAll("").split("=", 0);
-                    currentGroup.put(keyValue[0], keyValue[1]);
+                    if (keyValue.length > 0) {
+                        key = keyValue[0];
+                        value = (keyValue.length > 1) ? keyValue[1] : "";
+                        currentGroup.put(key, value);
+                    }
                 }
             }
 
