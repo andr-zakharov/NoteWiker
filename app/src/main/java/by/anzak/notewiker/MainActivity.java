@@ -33,7 +33,7 @@ public class MainActivity extends ActionBarActivity {
 
         // загрузка сохраненной модели дерева, если она была, или создание новой
         if (savedInstanceState != null){
-            tree = (Tree) savedInstanceState.get("TREE");
+            tree = (Tree) savedInstanceState.get(Constants.INTENT_DIRECTORY);
         } else {
             Note note = new OutWikerNote(new File(prefManager.getRootFolder()));
             tree = new Tree(note);
@@ -56,6 +56,12 @@ public class MainActivity extends ActionBarActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable(Constants.INTENT_DIRECTORY, tree);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
