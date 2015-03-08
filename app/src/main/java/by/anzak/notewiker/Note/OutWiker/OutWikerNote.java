@@ -86,8 +86,9 @@ public class OutWikerNote extends Note implements Comparable {
 
     @Override
     public List<File> getChildren() {
-        List<File> children = Arrays.asList(getFolder().listFiles(dirsFilter));
-        return children;
+        File[] list = getFolder().listFiles(dirsFilter);
+        if (list == null) return new ArrayList<>();
+        return Arrays.asList(list);
     }
 
     public synchronized ParamManager getSettings() {
@@ -144,6 +145,12 @@ public class OutWikerNote extends Note implements Comparable {
            }
        }
 
+       if (getType() == Type.TEXT){
+           File file = new File(getFolder(), "/__page.text");
+           if (file.isFile()) {
+               return file;
+           }
+       }
 
         return null;
     }

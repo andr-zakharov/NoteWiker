@@ -40,8 +40,6 @@ public class ContentViewFactory {
 
     private View createOutWikerView(Context context, OutWikerNote note){
 
-        if (note.getType() == OutWikerNote.Type.HTML || note.getType() == OutWikerNote.Type.WIKI){
-
             File contentFile = (File) note.getContent();
             if (contentFile == null) return null;
 
@@ -59,8 +57,6 @@ public class ContentViewFactory {
             view.loadUrl("file://" + contentFile);
 
             return view;
-        }
 
-        return null;
     }
 }
