@@ -1,7 +1,9 @@
 package by.anzak.notewiker.TreeView;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.File;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -17,9 +19,7 @@ import by.anzak.notewiker.Note.OutWiker.OutWikerNote;
  * Дети - наследники текущей заметки
  * При смене текущей заметки класс не пересоздается, а меняет свое содержимое.
  */
-public class Tree extends Observable implements Serializable {
-
-    private static final long serialVersionUID = 8957602872479065712L;
+public class Tree extends Observable implements Parcelable {
 
     private List<Note> parents;
 
@@ -49,7 +49,6 @@ public class Tree extends Observable implements Serializable {
         } else {
             parents = parents.subList(0, cur + 1);
         }
-        System.out.println(countObservers());
         setChanged();
         notifyObservers();
         return true;
@@ -69,7 +68,29 @@ public class Tree extends Observable implements Serializable {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeTypedList(parents);
+    }
 
+    public static final Creator<Tree> CREATOR = new Creator<Tree>() {
+        @Override
+        public Tree createFromParcel(Parcel parcel) {
+            return new Tree(parcel);
+        }
 
+        @Override
+        public Tree[] newArray(int i) {
+            return new Tree[0];
+        }
+    };
+
+    private Tree(Parcel parcel){
+        parents = (List<Note>) parcel.readSerializable();
+    }
 }

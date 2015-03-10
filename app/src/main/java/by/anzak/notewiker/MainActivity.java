@@ -60,7 +60,7 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putSerializable(Constants.INTENT_DIRECTORY, tree);
+        outState.putParcelable(Constants.INTENT_DIRECTORY, tree);
         super.onSaveInstanceState(outState);
     }
 

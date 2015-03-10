@@ -18,7 +18,7 @@ public class ReaderActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_reader);
         Intent intent = getIntent();
-        Note note = (Note) intent.getSerializableExtra(Constants.INTENT_DIRECTORY);
+        Note note = (Note) intent.getParcelableExtra(Constants.INTENT_DIRECTORY);
         View view = NoteViewFactory.getInstance().createNoteView(getBaseContext(), note);
         if (view != null) setContentView(view);
     }

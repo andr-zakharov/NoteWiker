@@ -2,11 +2,13 @@ package by.anzak.notewiker.Note.OutWiker;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Parcel;
 import android.support.annotation.Nullable;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -18,13 +20,12 @@ import by.anzak.notewiker.Note.Note;
  */
 public class OutWikerNote extends Note implements Comparable {
 
-    private static final long serialVersionUID = 5422739599880394547L;
-    private static final DirsFilter dirsFilter = new DirsFilter();
+    private static final FileFilter dirsFilter = new NotesFilter();
 
     private final File folder;
     private ParamManager settings = null;
     private String title;
-    Bitmap icon;
+    private Bitmap icon;
 
 
     public enum Type {HTML, TEXT, WIKI}
@@ -50,13 +51,13 @@ public class OutWikerNote extends Note implements Comparable {
 
     @Override
     public Bitmap getIcon() {
-        if (icon == null) {
+//        if (icon == null) {
             File icon = new File(getFolder(), "/__icon.png");
             if (icon.isFile() && icon.canRead()) {
                 return BitmapFactory.decodeFile(icon.getAbsolutePath());
             }
-        }
-        return icon;
+//        }
+        return null;
     }
 
     public void setIcon(Bitmap icon) {
@@ -165,6 +166,16 @@ public class OutWikerNote extends Note implements Comparable {
     }
 
     @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeSerializable(folder);
+    }
+
+    @Override
     public int compareTo(@NotNull Object another) {
         int order;
         if (!(another instanceof OutWikerNote)) {
@@ -181,4 +192,21 @@ public class OutWikerNote extends Note implements Comparable {
     public String toString() {
         return getTitle();
     }
+
+    public static final Creator<OutWikerNote> CREATOR = new Creator<OutWikerNote>() {
+        @Override
+        public OutWikerNote createFromParcel(Parcel parcel) {
+            return new OutWikerNote(parcel);
+        }
+
+        @Override
+        public OutWikerNote[] newArray(int i) {
+            return new OutWikerNote[0];
+        }
+    };
+
+    private OutWikerNote(Parcel parcel){
+        folder = (File) parcel.readSerializable();
+    }
+
 }

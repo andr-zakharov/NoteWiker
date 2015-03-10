@@ -1,15 +1,15 @@
 package by.anzak.notewiker.Note;
 
 import android.graphics.Bitmap;
+import android.os.Parcelable;
 
 import java.io.File;
-import java.io.Serializable;
 import java.util.List;
 
 /**
  * Класс заметки
  */
-public abstract class Note implements Serializable{
+public abstract class Note implements Parcelable{
 
     /* возвращает заголовок заметки */
     public abstract String getTitle();
