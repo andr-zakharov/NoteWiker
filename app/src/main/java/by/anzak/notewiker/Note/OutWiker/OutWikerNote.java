@@ -51,12 +51,12 @@ public class OutWikerNote extends Note implements Comparable {
 
     @Override
     public Bitmap getIcon() {
-//        if (icon == null) {
+        if (icon == null) {
             File icon = new File(getFolder(), "/__icon.png");
             if (icon.isFile() && icon.canRead()) {
                 return BitmapFactory.decodeFile(icon.getAbsolutePath());
             }
-//        }
+        }
         return null;
     }
 
@@ -118,8 +118,10 @@ public class OutWikerNote extends Note implements Comparable {
      * @return порядковый номер, если задан в параметрах заметки. Если не задан, возвращает -1
      */
     public int getOrder() {
+        String value = getSettings().getParam("General", "order");
+        if (value == null || value.isEmpty()) return -1;
         try {
-            return Integer.valueOf(getSettings().getParam("General", "order"));
+            return Integer.valueOf(value);
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
@@ -207,6 +209,7 @@ public class OutWikerNote extends Note implements Comparable {
 
     private OutWikerNote(Parcel parcel){
         folder = (File) parcel.readSerializable();
+        title = folder.getName();
     }
 
 }
