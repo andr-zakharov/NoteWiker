@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Observable;
 
@@ -64,6 +65,7 @@ public class Tree extends Observable implements Parcelable {
         for (File f : lf){
             ln.add(new OutWikerNote(f));
         }
+        Collections.sort(ln);
         return ln;
     }
 

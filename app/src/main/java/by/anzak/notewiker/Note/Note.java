@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Класс заметки
  */
-public abstract class Note implements Parcelable{
+public abstract class Note implements Parcelable, Comparable{
 
     /* возвращает заголовок заметки */
     public abstract String getTitle();

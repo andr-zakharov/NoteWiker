@@ -136,6 +136,7 @@ public class ParamManager {
             if (key.equals(g.key)) return g;
         }
         Group g = new Group();
+        g.key = key;
         groups.add(g);
         return g;
     }
