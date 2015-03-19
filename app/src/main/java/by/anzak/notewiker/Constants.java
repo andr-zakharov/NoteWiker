@@ -3,7 +3,7 @@ package by.anzak.notewiker;
 /**
  * Constants container
  */
-class Constants {
+public class Constants {
 
     public static final String INTENT_DIRECTORY = "Directory";
     public static final String INTENT_FILE = "File";
@@ -17,5 +17,6 @@ class Constants {
     public static final int REQUEST_CODE_NOTE_ACTIVITY = 2;
     public static final int REQUEST_CODE_EDITOR = 3;
     public static final int REQUEST_CODE_PRESENTATION_ACTIVITY = 4;
+    public static final int REQUEST_CODE_SETROOT_ACTIVITY = 5;
 
 }

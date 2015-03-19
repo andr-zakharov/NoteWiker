@@ -12,6 +12,7 @@ import java.io.File;
 
 import by.anzak.notewiker.Note.Note;
 import by.anzak.notewiker.Note.OutWiker.OutWikerNote;
+import by.anzak.notewiker.Root.SetRootActivity;
 import by.anzak.notewiker.TreeView.Tree;
 import by.anzak.notewiker.TreeView.TreeView;
 
@@ -20,6 +21,7 @@ public class MainActivity extends ActionBarActivity {
 
     private Tree tree;
     boolean mDualPane;
+    TreeView treeViewFactory;
 
     private LinearLayout treeLayout;
 
@@ -42,7 +44,7 @@ public class MainActivity extends ActionBarActivity {
         mDualPane = (findViewById(R.id.content) != null);
 
         // создание вью дерева и добавление его на экран
-        TreeView treeViewFactory = new TreeView(getBaseContext(), getLayoutInflater());
+        treeViewFactory = new TreeView(getBaseContext(), getLayoutInflater());
         treeViewFactory.setModel(tree);
         treeViewFactory.setChangeNoteListener(new ChangeNoteListener());
         treeViewFactory.setShowNoteListener(new ShowNoteListener());
@@ -66,17 +68,25 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()){
+            case (R.id.action_setroot):
+                Intent intent = new Intent(this, SetRootActivity.class);
+                startActivityForResult(intent, Constants.REQUEST_CODE_SETROOT_ACTIVITY);
+                break;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == Constants.REQUEST_CODE_SETROOT_ACTIVITY && resultCode == RESULT_OK){
+//            Note note = new OutWikerNote(new File(new PrefManager(this).getRootFolder()));
+//            tree.getParentList().clear();
+//            tree.setCurrent(note);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     public void showNote(Note note){

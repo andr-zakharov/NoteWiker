@@ -33,8 +33,10 @@ public class PrefManager {
         return preferences.getString(Constants.ROOT_PATH_KEY, defaultPath.getAbsolutePath());
     }
 
-    public void setRootFolder(){
-
+    public void setRootFolder(File file){
+        SharedPreferences.Editor e = preferences.edit();
+        e.putString(Constants.ROOT_PATH_KEY, file.getAbsolutePath());
+        e.commit();
     }
 
 

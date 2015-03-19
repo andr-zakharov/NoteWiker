@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="by.anzak.notewiker" >
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -22,6 +22,10 @@
         <activity
             android:name=".ReaderActivity"
             android:label="@string/title_activity_reader" >
+        </activity>
+        <activity
+            android:name=".Root.SetRootActivity"
+            android:label="@string/title_activity_set_root" >
         </activity>
     </application>
 
