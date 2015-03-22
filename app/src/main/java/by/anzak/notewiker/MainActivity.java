@@ -15,6 +15,7 @@ import by.anzak.notewiker.Note.OutWiker.OutWikerNote;
 import by.anzak.notewiker.Root.SetRootActivity;
 import by.anzak.notewiker.TreeView.Tree;
 import by.anzak.notewiker.TreeView.TreeView;
+import by.anzak.notewiker.UID.UIDManager;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -39,6 +40,8 @@ public class MainActivity extends ActionBarActivity {
         } else {
             Note note = new OutWikerNote(new File(prefManager.getRootFolder()));
             tree = new Tree(note);
+            UIDManager uim = new UIDManager(getBaseContext());
+            uim.update();
         }
 
         mDualPane = (findViewById(R.id.content) != null);

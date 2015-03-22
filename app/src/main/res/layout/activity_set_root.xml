@@ -30,6 +30,7 @@
             android:text="@android:string/cancel"
             android:id="@+id/cancel"
             android:layout_weight="1"
+            style="?android:attr/buttonBarButtonStyle"
             android:onClick="finishActivity" />
 
         <Button
@@ -38,6 +39,7 @@
             android:text="@android:string/ok"
             android:id="@+id/ok"
             android:layout_weight="1"
+            style="?android:attr/buttonBarButtonStyle"
             android:onClick="saveRoot" />
     </LinearLayout>
 </LinearLayout>
